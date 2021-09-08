@@ -15,6 +15,12 @@ def write_to_arduino(msg):
 def read_root():
     return {"Hejo": "Swiecie"}
 
+app.licznik = 0
+
+@app.get("/licz")
+def licznik():
+    app.licznik = app.licznik + 1
+    return {"wartosc" : app.licznik}
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Optional[str] = None):
@@ -23,7 +29,7 @@ def read_item(item_id: int, q: Optional[str] = None):
 
 @app.get("/s1/{degree}")
 def move_s1_left(degree: int):
-    write_to_arduino("s1:l\n")
+    write_to_arduino(f's1:{degree}\n')
     return f'Obrocono o kat {degree} stopni' 
 
 @app.get("/s2/left")
